@@ -6,30 +6,30 @@ package br.com.cesarschool.poo.titulos.entidades;
  * autorizadoAcao, do tipo double
  * saldoAcao, do tipo double
  * saldoTituloDivida, do tipo double
- * 
- * Deve ter um construtor público que inicializa os atributos identificador, nome
- * e autorizadoAcao. Deve ter métodos set/get públicos para os atributos identificador, nome
- * e autorizadoAcao. O atributo identificador é read-only fora da classe.
- * 
- * Os atributos saldoAcao e saldoTituloDivida devem ter apenas métodos get públicos.
- * 
- * Outros métodos públicos:
- * 
+ *
+ * Deve ter um construtor pÃºblico que inicializa os atributos identificador, nome
+ * e autorizadoAcao. Deve ter mÃ©todos set/get pÃºblicos para os atributos identificador, nome
+ * e autorizadoAcao. O atributo identificador Ã© read-only fora da classe.
+ *
+ * Os atributos saldoAcao e saldoTituloDivida devem ter apenas mÃ©todos get pÃºblicos.
+ *
+ * Outros mÃ©todos pÃºblicos:
+ *
  *  void creditarSaldoAcao(double valor): deve adicionar valor ao saldoAcao
  *  void debitarSaldoAcao(double valor): deve diminuir valor de saldoAcao
  *  void creditarSaldoTituloDivida(double valor): deve adicionar valor ao saldoTituloDivida
- *  void debitarSaldoTituloDivida(double valor): deve diminuir valor de saldoTituloDivida  
+ *  void debitarSaldoTituloDivida(double valor): deve diminuir valor de saldoTituloDivida
  */
 public class EntidadeOperadora {
     private long identificador;
     private String nome;
-    private double autorizadoAcao;
+    private boolean autorizadoAcao;
     private double saldoAcao;
     private double saldoTituloDivida;
 
 
     //construtor
-    public EntidadeOperadora(long identificador, String nome, double autorizadoAcao,double saldoAcao,double saldoTituloDivida){
+    public EntidadeOperadora(long identificador, String nome, boolean autorizadoAcao,double saldoAcao,double saldoTituloDivida){
         this.identificador= identificador;
         this.nome=nome;
         this.autorizadoAcao= autorizadoAcao;
@@ -50,10 +50,10 @@ public class EntidadeOperadora {
     public void setNome(String nome){
         this.nome=nome;
     }
-    public double getAutorizadoAcao(){
+    public boolean getAutorizadoAcao(){
         return autorizadoAcao;
     }
-    public void setAutorizadoAcao(double autorizadoAcao){
+    public void setAutorizadoAcao(boolean autorizadoAcao){
         this.autorizadoAcao=autorizadoAcao;
     }
 
