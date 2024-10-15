@@ -7,20 +7,20 @@ package br.com.cesarschool.poo.titulos.repositorios;
     2;BANCO DO BRASIL;2026-01-01;21.21
     3;CORREIOS;2027-11-11;6.12 
  * 
- * A inclus„o deve adicionar uma nova linha ao arquivo. N„o È permitido incluir 
- * identificador repetido. Neste caso, o metodo deve retornar false. Inclus„o com
+ * A inclus√£o deve adicionar uma nova linha ao arquivo. N√£o √© permitido incluir 
+ * identificador repetido. Neste caso, o metodo deve retornar false. Inclus√£o com
  * sucesso, retorno true.
  * 
- * A alteraÁ„o deve substituir a linha atual por uma nova linha. A linha deve ser 
- * localizada por identificador que, quando n„o encontrado, enseja retorno false. 
- * AlteraÁ„o com sucesso, retorno true.  
+ * A altera√ß√£o deve substituir a linha atual por uma nova linha. A linha deve ser 
+ * localizada por identificador que, quando n√£o encontrado, enseja retorno false. 
+ * Altera√ß√£o com sucesso, retorno true.  
  *   
- * A exclus„o deve apagar a linha atual do arquivo. A linha deve ser 
- * localizada por identificador que, quando n„o encontrado, enseja retorno false. 
- * Exclus„o com sucesso, retorno true.
+ * A exclus√£o deve apagar a linha atual do arquivo. A linha deve ser 
+ * localizada por identificador que, quando n√£o encontrado, enseja retorno false. 
+ * Exclus√£o com sucesso, retorno true.
  * 
  * A busca deve localizar uma linha por identificador, materializar e retornar um 
- * objeto. Caso o identificador n„o seja encontrado no arquivo, retornar null.   
+ * objeto. Caso o identificador n√£o seja encontrado no arquivo, retornar null.   
  */
 
 import br.com.cesarschool.poo.titulos.entidades.EntidadeOperadora;
@@ -34,12 +34,12 @@ public class RepositorioEntidadeOperadora {
     // Create - Adiciona uma nova EntidadeOperadora
     public boolean create(EntidadeOperadora entidade) {
         if (read(entidade.getIdentificador()) != null) {
-            return false; // Se a entidade j· existe, n„o adiciona
+            return false; // Se a entidade j√° existe, n√£o adiciona
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo, true))) {
             writer.write(entidade.getIdentificador() + ";" +
                     entidade.getNome() + ";" +
-                    entidade.getAutorizadoAcao() + ";" +
+                    entidade.getAutorizadoAcao() + ";" + // Agora √© boolean
                     entidade.getSaldoAcao() + ";" +
                     entidade.getSaldoTituloDivida());
             writer.newLine();
@@ -50,7 +50,7 @@ public class RepositorioEntidadeOperadora {
         }
     }
 
-    // Read - LÍ e retorna uma EntidadeOperadora pelo identificador
+    // Read - L√™ e retorna uma EntidadeOperadora pelo identificador
     public EntidadeOperadora read(long identificador) {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
             String linha;
@@ -60,7 +60,7 @@ public class RepositorioEntidadeOperadora {
                     return new EntidadeOperadora(
                             Long.parseLong(dados[0]),
                             dados[1],
-                            Double.parseDouble(dados[2]),
+                            Boolean.parseBoolean(dados[2]), // Convers√£o para boolean
                             Double.parseDouble(dados[3]),
                             Double.parseDouble(dados[4])
                     );
@@ -69,7 +69,7 @@ public class RepositorioEntidadeOperadora {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null; // Se a entidade n„o for encontrada
+        return null; // Se a entidade n√£o for encontrada
     }
 
     // Read - Imprime todas as EntidadeOperadora no arquivo
@@ -99,7 +99,7 @@ public class RepositorioEntidadeOperadora {
                     found = true;
                 } else {
                     entidades.add(new EntidadeOperadora(
-                            id, dados[1], Double.parseDouble(dados[2]),
+                            id, dados[1], Boolean.parseBoolean(dados[2]), // Convers√£o para boolean
                             Double.parseDouble(dados[3]), Double.parseDouble(dados[4])
                     ));
                 }
@@ -112,7 +112,7 @@ public class RepositorioEntidadeOperadora {
             writeAll(entidades); // Reescreve o arquivo com a lista atualizada
             return true;
         }
-        return false; // Se a entidade n„o foi encontrada
+        return false; // Se a entidade n√£o foi encontrada
     }
 
     // Delete - Remove uma EntidadeOperadora existente
@@ -127,11 +127,11 @@ public class RepositorioEntidadeOperadora {
                 long id = Long.parseLong(dados[0]);
                 if (id != identificador) {
                     entidades.add(new EntidadeOperadora(
-                            id, dados[1], Double.parseDouble(dados[2]),
+                            id, dados[1], Boolean.parseBoolean(dados[2]), // Convers√£o para boolean
                             Double.parseDouble(dados[3]), Double.parseDouble(dados[4])
                     ));
                 } else {
-                    found = true; // Se encontrou a entidade, n„o a adiciona na nova lista
+                    found = true; // Se encontrou a entidade, n√£o a adiciona na nova lista
                 }
             }
         } catch (IOException e) {
@@ -142,16 +142,16 @@ public class RepositorioEntidadeOperadora {
             writeAll(entidades); // Reescreve o arquivo sem a entidade deletada
             return true;
         }
-        return false; // Se a entidade n„o foi encontrada
+        return false; // Se a entidade n√£o foi encontrada
     }
 
-    // MÈtodo auxiliar para reescrever todas as entidades no arquivo
+    // Metodo auxiliar para reescrever todas as entidades no arquivo
     private void writeAll(List<EntidadeOperadora> entidades) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))) {
             for (EntidadeOperadora entidade : entidades) {
                 writer.write(entidade.getIdentificador() + ";" +
                         entidade.getNome() + ";" +
-                        entidade.getAutorizadoAcao() + ";" +
+                        entidade.getAutorizadoAcao() + ";" + // Agora √© boolean
                         entidade.getSaldoAcao() + ";" +
                         entidade.getSaldoTituloDivida());
                 writer.newLine();
