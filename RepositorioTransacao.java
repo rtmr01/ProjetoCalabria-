@@ -22,10 +22,10 @@ import java.util.List;
  *   002192;BCB;true;0.00;1890220034.0;001112;BOFA;true;12900000210.00;3564234127.0;1;PETROBRAS;2024-12-12;30.33;null;100000.0;2024-01-01 12:22:21 
  *   002192;BCB;false;0.00;1890220034.0;001112;BOFA;true;12900000210.00;3564234127.0;null;3;FRANCA;2027-11-11;2.5;100000.0;2024-01-01 12:22:21
  *
- * A inclusão deve adicionar uma nova linha ao arquivo. 
+ * A inclusÃ£o deve adicionar uma nova linha ao arquivo. 
  * 
- * A busca deve retornar um array de transações cuja entidadeCredito tenha identificador igual ao
- * recebido como parâmetro.  
+ * A busca deve retornar um array de transaÃ§Ãµes cuja entidadeCredito tenha identificador igual ao
+ * recebido como parÃ¢metro.  
  */
 
 
@@ -33,38 +33,25 @@ public class RepositorioTransacao {
 
 	private static final String FILE_NAME = "Transacao.txt";
 
-	// Metodo para incluir uma nova transação no arquivo
+	// Metodo para incluir uma nova transaÃ§Ã£o no arquivo
 	public void incluir(Transacao transacao) {
-
-
-
-		//ginho colocou um verificador desse, analisar depois
-		//if (transacao.getEntidadeCredito().getIdentificador() == transacao.getEntidadeDebito().getIdentificador()) {
-		//	System.out.println("A entidade credora não pode ser a mesma que a entidade devedora.");
-		//	return; // Não permite transações entre a mesma entidade
-	//	}
-
-
-
-
-
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
 			// Escreve os dados da entidade credora
 			writer.write(formatEntidade(transacao.getEntidadeCredito()) + ";");
 			// Escreve os dados da entidade devedora
 			writer.write(formatEntidade(transacao.getEntidadeDebito()) + ";");
-			// Escreve os dados da ação (ou null)
+			// Escreve os dados da aÃ§Ã£o (ou null)
 			writer.write(formatAcao(transacao.getAcao()) + ";");
-			// Escreve os dados do título de dívida (ou null)
+			// Escreve os dados do tÃ­tulo de dÃ­vida (ou null)
 			writer.write(formatTituloDivida(transacao.getTituloDivida()) + ";");
-			// Escreve o valor da operação e a data/hora da operação
+			// Escreve o valor da operaÃ§Ã£o e a data/hora da operaÃ§Ã£o
 			writer.write(transacao.getValorOperacao() + ";" + transacao.getDataHoraOperacao() + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	// Metodo para buscar transações por identificador da entidade credora
+	// Metodo para buscar transaÃ§Ãµes por identificador da entidade credora
 	public Transacao[] buscarPorEntidadeCredora(int identificadorEntidadeCredito) {
 		List<Transacao> transacoesEncontradas = new ArrayList<>();
 		try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
@@ -88,7 +75,7 @@ public class RepositorioTransacao {
 				+ entidade.getSaldoAcao() + ";" + entidade.getSaldoTituloDivida();
 	}
 
-	// Metodo auxiliar para formatar os dados de uma ação
+	// Metodo auxiliar para formatar os dados de uma aÃ§Ã£o
 	private String formatAcao(Acao acao) {
 		if (acao == null) {
 			return "null";
@@ -96,7 +83,7 @@ public class RepositorioTransacao {
 		return acao.getIdentificador() + ";" + acao.getNome() + ";" + acao.getDataDeValidade() + ";" + acao.getValorUnitario();
 	}
 
-	//  auxiliar para formatar os dados de um título de dívida
+	// Metodo auxiliar para formatar os dados de um tÃ­tulo de dÃ­vida
 	private String formatTituloDivida(TituloDivida tituloDivida) {
 		if (tituloDivida == null) {
 			return "null";
@@ -104,32 +91,30 @@ public class RepositorioTransacao {
 		return tituloDivida.getIdentificador() + ";" + tituloDivida.getNome() + ";" + tituloDivida.getDataDeValidade() + ";" + tituloDivida.getTaxaJuros();
 	}
 
-
-
-
-	// serve para criar uma Transacao a partir dos dados lidos
+	// Metodo para criar uma Transacao a partir dos dados lidos
 	private Transacao parseTransacao(String[] dados) {
 		// Cria a entidade credora
 		EntidadeOperadora entidadeCredito = new EntidadeOperadora(
-				Long.parseLong(dados[0]), dados[1], Double.parseDouble(dados[2]), Double.parseDouble(dados[3]), Double.parseDouble(dados[4]));
+				Long.parseLong(dados[0]), dados[1], Boolean.parseBoolean(dados[2]), Double.parseDouble(dados[3]), Double.parseDouble(dados[4]));
 
 		// Cria a entidade devedora
 		EntidadeOperadora entidadeDebito = new EntidadeOperadora(
-				Long.parseLong(dados[5]), dados[6], Double.parseDouble(dados[7]), Double.parseDouble(dados[8]), Double.parseDouble(dados[9]));
+				Long.parseLong(dados[5]), dados[6], Boolean.parseBoolean(dados[7]), Double.parseDouble(dados[8]), Double.parseDouble(dados[9]));
 
-		// Cria a ação (ou null)
+		// Cria a aÃ§Ã£o (ou null)
 		Acao acao = dados[10].equals("null") ? null : new Acao(
 				Integer.parseInt(dados[10]), dados[11], LocalDate.parse(dados[12]), Double.parseDouble(dados[13]));
 
-		// Cria o título de dívida (ou null)
+		// Cria o tÃ­tulo de dÃ­vida (ou null)
 		TituloDivida tituloDivida = dados[14].equals("null") ? null : new TituloDivida(
 				Integer.parseInt(dados[14]), dados[15], LocalDate.parse(dados[16]), Double.parseDouble(dados[17]));
 
-		// Recupera o valor da operação e a data/hora da operação
+		// Recupera o valor da operaÃ§Ã£o e a data/hora da operaÃ§Ã£o
 		double valorOperacao = Double.parseDouble(dados[18]);
 		LocalDateTime dataHoraOperacao = LocalDateTime.parse(dados[19]);
 
-		// Retorna a nova transação
+		// Retorna a nova transaÃ§Ã£o
 		return new Transacao(entidadeCredito, entidadeDebito, acao, tituloDivida, valorOperacao, dataHoraOperacao);
 	}
 }
+
