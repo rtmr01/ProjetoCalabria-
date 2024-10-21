@@ -20,6 +20,9 @@ package br.com.cesarschool.poo.titulos.entidades;
  *  void creditarSaldoTituloDivida(double valor): deve adicionar valor ao saldoTituloDivida
  *  void debitarSaldoTituloDivida(double valor): deve diminuir valor de saldoTituloDivida
  */
+
+/*teste de commit meu */
+
 public class EntidadeOperadora {
     private long identificador;
     private String nome;
